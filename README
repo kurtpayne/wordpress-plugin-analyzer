@@ -1,0 +1,14 @@
+Place the WordPress folder in your CodeSniffer/Standards folder.
+
+This requires PHP CodeSniffer:
+http://pear.php.net/package/PHP_CodeSniffer/
+
+# Check out a local copy
+cd ~
+git clone https://kurtpayne@github.com/kurtpayne/wordpress-codesniffer.git
+
+# Install to CodeSniffer
+cp wordpress-codesniffer/WordPress /usr/lib/php/pear/PHP/CodeSniffer/Standards
+
+# Run CodeSniffer
+phpcs --standard=WordPress --report=full /path/to/my/files/*
