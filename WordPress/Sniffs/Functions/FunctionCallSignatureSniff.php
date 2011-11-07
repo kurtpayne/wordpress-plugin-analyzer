@@ -1,34 +1,29 @@
 <?php
+
 /**
- * PEAR_Sniffs_Functions_FunctionCallSignatureSniff.
+ * Enforces WordPress function call format, based upon Squiz code
  *
  * PHP version 5
  *
  * @category  PHP
  * @package   PHP_CodeSniffer
+ * @author    John Godley <john@urbangiraffe.com>
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @author    Marc McIntyre <mmcintyre@squiz.net>
- * @copyright 2006 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   http://matrix.squiz.net/developer/tools/php_cs/licence BSD Licence
- * @version   CVS: $Id: FunctionCallSignatureSniff.php 307869 2011-01-31 03:56:50Z squiz $
- * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
 
 /**
- * PEAR_Sniffs_Functions_FunctionCallSignatureSniff.
+ * Enforces WordPress array format
  *
  * @category  PHP
  * @package   PHP_CodeSniffer
+ * @author    John Godley <john@urbangiraffe.com>
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @author    Marc McIntyre <mmcintyre@squiz.net>
- * @copyright 2006 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   http://matrix.squiz.net/developer/tools/php_cs/licence BSD Licence
- * @version   Release: 1.3.1
- * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
 class WordPress_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSniffer_Sniff
 {
-
+	private $type;
 
     /**
      * Returns an array of tokens this test wants to listen for.
@@ -67,29 +62,30 @@ class WordPress_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeS
             // Not a function call.
             return;
         }
-
+		
         // Find the previous non-empty token.
-        $search   = PHP_CodeSniffer_Tokens::$emptyTokens;
-        $search[] = T_BITWISE_AND;
-        $previous = $phpcsFile->findPrevious($search, ($stackPtr - 1), null, true);
-        if ($tokens[$previous]['code'] === T_FUNCTION) {
-            // It's a function definition, not a function call.
+        $previous = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, ($stackPtr - 1), null, true);
+        if ($tokens[$previous]['code'] === T_FUNCTION)
+			$this->type = 'definition';
+
+/*        if ($tokens[$previous]['code'] === T_NEW) {
+            // We are creating an object, not calling a function.
             return;
         }
-
+		*/
         $closeBracket = $tokens[$openBracket]['parenthesis_closer'];
 
         if (($stackPtr + 1) !== $openBracket) {
             // Checking this: $value = my_function[*](...).
-            $error = 'Space before opening parenthesis of function call prohibited';
-            $phpcsFile->addError($error, $stackPtr, 'SpaceBeforeOpenBracket');
+            $error = 'Space before opening parenthesis of function '.$this->type.' prohibited';
+            $phpcsFile->addError($error, $stackPtr);
         }
 
         $next = $phpcsFile->findNext(T_WHITESPACE, ($closeBracket + 1), null, true);
         if ($tokens[$next]['code'] === T_SEMICOLON) {
             if (in_array($tokens[($closeBracket + 1)]['code'], PHP_CodeSniffer_Tokens::$emptyTokens) === true) {
-                $error = 'Space after closing parenthesis of function call prohibited';
-                $phpcsFile->addError($error, $closeBracket, 'SpaceAfterCloseBracket');
+                $error = 'Space after closing parenthesis of function '.$this->type.' prohibited';
+                $phpcsFile->addError($error, $closeBracket);
             }
         }
 
@@ -118,10 +114,10 @@ class WordPress_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeS
      */
     public function processSingleLineCall(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $openBracket, $tokens)
     {
-        if ($tokens[($openBracket + 1)]['code'] !== T_WHITESPACE) {
+        if ($tokens[($openBracket + 1)]['code'] !== T_WHITESPACE && $tokens[($openBracket + 1)]['code'] !== T_CLOSE_PARENTHESIS) {
             // Checking this: $value = my_function([*]...).
-            $error = 'Space after opening parenthesis of function call required';
-            $phpcsFile->addError($error, $stackPtr, 'SpaceAfterOpenBracket');
+            $error = 'No space after opening parenthesis of function '.$this->type.' prohibited';
+            $phpcsFile->addError($error, $stackPtr);
         }
 
         $closer = $tokens[$openBracket]['parenthesis_closer'];
@@ -135,9 +131,10 @@ class WordPress_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeS
             // If there is no content, then we would have thrown an error in the
             // previous IF statement because it would look like this:
             // $value = my_function( ).
+
             if ($between !== $closer) {
-                $error = 'Space before closing parenthesis of function call required';
-                $phpcsFile->addError($error, $closer, 'SpaceBeforeCloseBracket');
+                $error = 'No space before closing parenthesis of function '.$this->type.' prohibited';
+                $phpcsFile->addError($error, $closer);
             }
         }
 
@@ -216,32 +213,21 @@ class WordPress_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeS
                 }
 
                 if ($expectedIndent !== $foundIndent) {
-                    $error = 'Multi-line function call not indented correctly; expected %s spaces but found %s';
-                    $data  = array(
-                              $expectedIndent,
-                              $foundIndent,
-                             );
-                    $phpcsFile->addError($error, $i, 'Indent', $data);
+                    $error = "Multi-line function ".$this->type." not indented correctly; expected $expectedIndent spaces but found $foundIndent";
+                    $phpcsFile->addError($error, $i);
                 }
             }//end if
-
-            // Skip the rest of a closure.
-            if ($tokens[$i]['code'] === T_CLOSURE) {
-                $i        = $tokens[$i]['scope_closer'];
-                $lastLine = $tokens[$i]['line'];
-                continue;
-            }
         }//end for
 
         if ($tokens[($openBracket + 1)]['content'] !== $phpcsFile->eolChar) {
             $error = 'Opening parenthesis of a multi-line function call must be the last content on the line';
-            $phpcsFile->addError($error, $stackPtr, 'ContentAfterOpenBracket');
+            $phpcsFile->addError($error, $stackPtr);
         }
 
         $prev = $phpcsFile->findPrevious(T_WHITESPACE, ($closeBracket - 1), null, true);
         if ($tokens[$prev]['line'] === $tokens[$closeBracket]['line']) {
-            $error = 'Closing parenthesis of a multi-line function call must be on a line by itself';
-            $phpcsFile->addError($error, $closeBracket, 'CloseBracketLine');
+            $error = 'Closing parenthesis of a multi-line function '.$this->type.' must be on a line by itself';
+            $phpcsFile->addError($error, $closeBracket);
         }
 
     }//end processMultiLineCall()
