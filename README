@@ -5,12 +5,15 @@ Place the WordPress folder in your CodeSniffer/Standards folder.
 This requires PHP CodeSniffer:
 http://pear.php.net/package/PHP_CodeSniffer/
 
-# Check out a local copy
+# Install CodeSniffer (if you don't already have it)
+pear install PHP_CodeSniffer
+
+# Check out a local copy of wordpress-codesniffer
 cd ~
 git clone https://github.com/kurtpayne/wordpress-codesniffer.git
 
 # Install to CodeSniffer
-cp wordpress-codesniffer/WordPress /usr/lib/php/pear/PHP/CodeSniffer/Standards
+ln -s wordpress-codesniffer/WordPress /usr/lib/php/pear/PHP/CodeSniffer/Standards/WordPress
 
 # Run CodeSniffer
 phpcs --standard=WordPress /path/to/my/files/*
