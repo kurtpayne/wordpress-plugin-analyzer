@@ -1,28 +1,19 @@
 <?xml version="1.0"?>
 <ruleset name="WordPress">
  <description>The WordPress coding standard.</description>
- 
+  
  <!--
- @todo - host this
- @todo - fix todos
- @todo - veify readme.txt
- @todo - 
- -->
- 
- <!--
+ See the standards here:
  @link http://codex.wordpress.org/WordPress_Coding_Standards
  @link http://lists.automattic.com/pipermail/wp-hackers/2006-July/006930.html
  @link http://manual.phpdoc.org/HTMLSmartyConverter/HandS/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html
  -->
-
- <!-- @todo: Look for transltable strings __(....) -->
  
  <!-- Look for *todo* -->
  <rule ref="Generic.Commenting.Todo"/>
  
  <!-- Favor control structures to being on multiple lines -->
- <!-- @todo -->
- <!-- <rule ref="Generic.ControlStructures.InlineControlStructure"/> -->
+ <rule ref="Generic.ControlStructures.InlineControlStructure"/>
 
  <!-- Favor each statement to standing on its own -->
  <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
@@ -30,63 +21,43 @@
  <!-- Favor a single space after casting data types -->
  <rule ref="Generic.Formatting.SpaceAfterCast"/>
  
- <!-- Favor control structures to being on multiple lines -->
- <rule ref="WordPress.Functions.FunctionCallArgumentSpacing"/>
-
  <!-- Favor __construct() vs. ClassName() constructor -->
- <!-- <rule ref="Generic.NamingConventions.ConstructorName"/> -->
+ <rule ref="Generic.NamingConventions.ConstructorName"/>
  
  <!-- Favor upper case constant names -->
- <!-- <rule ref="Generic.NamingConventions.UpperCaseConstantName"/> -->
+ <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
 
- <!-- Block short tags -->
- <!-- <rule ref="Generic.PHP.DisallowShortOpenTag"/> -->
+ <!-- No short tags -->
+ <rule ref="Generic.PHP.DisallowShortOpenTag"/>
 
  <!-- Warn against unnecessary string concatenations -->
- <!-- <rule ref="Generic.Strings.UnnecessaryStringConcat"/> -->
-
- <!-- Favor tab indents -->
- <!--
- <rule ref="WordPress.WhiteSpace.DisallowSpaceIndent"/>
- <rule ref="WordPress.WhiteSpace.ScopeIndent"/>
- -->
-  
- <!-- @TODO -->
- <!-- <rule ref="WordPress.ControlStructures.MultiLineCondition"/> -->
+ <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
 
  <!-- Check include vs. require -->
- <!-- <rule ref="PEAR.Files.IncludingFile"/> -->
+ <rule ref="PEAR.Files.IncludingFile"/>
  
  <!-- Multi-line assignments requires indenting with spaces -->
- <!-- <rule ref="PEAR.Formatting.MultiLineAssignment"/> -->
-
- <!-- @OTOD  -->
- <!-- <rule ref="WordPress.Functions.FunctionCallSignature"/> -->
+ <rule ref="PEAR.Formatting.MultiLineAssignment"/>
 
  <!-- @TODO -->
  <!-- <rule ref="Zend.Debug.CodeAnalyzer"/> -->
  
- <!-- Lines can be 85 chars long, but never show errors -->
- <!--
+ <!-- Lines can be 150 chars long, but never show errors -->
  <rule ref="Generic.Files.LineLength">
   <properties>
    <property name="lineLimit" value="150"/>
    <property name="absoluteLineLimit" value="0"/>
   </properties>
  </rule>
- -->
  
  <!-- Use Unix newlines -->
- <!--
  <rule ref="Generic.Files.LineEndings">
   <properties>
    <property name="eolChar" value="\n"/>
   </properties>
  </rule>
- -->
  
  <!-- Have 16 chars padding maximum and always show as errors -->
- <!--
  <rule ref="Generic.Formatting.MultipleStatementAlignment">
   <properties>
    <property name="maxPadding" value="16"/>
@@ -94,10 +65,8 @@
    <property name="error" value="true"/>
   </properties>
  </rule>
- -->
  
  <!-- Warn about overly complex code -->
- <!--
  <rule ref="Generic.Metrics.CyclomaticComplexity">
   <properties>
    <property name="complexity" value="10"/>
@@ -110,10 +79,8 @@
    <property name="absoluteNestingLevel" value="50"/>
   </properties>
  </rule>
- -->
  
  <!-- We don't want gsjlint throwing errors for things we already check -->
- <!--
  <rule ref="Generic.Debug.ClosureLinter">
   <properties>
    <property name="errorCodes" type="array" value="0210"/>
@@ -123,5 +90,4 @@
  <rule ref="Generic.Debug.ClosureLinter.ExternalToolError">
   <message>%2$s</message>
  </rule>
- -->
 </ruleset>

@@ -13,4 +13,23 @@ git clone https://github.com/kurtpayne/wordpress-codesniffer.git
 cp wordpress-codesniffer/WordPress /usr/lib/php/pear/PHP/CodeSniffer/Standards
 
 # Run CodeSniffer
-phpcs --standard=WordPress --report=full /path/to/my/files/*
+phpcs --standard=WordPress /path/to/my/files/*
+
+
+THANKS:
+ * Original WordPress CodeSniffer standards by John
+ * http://urbangiraffe.com/articles/wordpress-codesniffer-standard/
+
+
+TODO:
+ * I'd like to host this somewhere so people could upload a plugin / theme zip
+and have this run a set of tests automatically.  I just need to find the time
+to make that happen.
+
+ * Tie into Zend Code Analyzer
+
+ * Submit readme.txt (if found) to http://wordpress.org/extend/plugins/about/validator/
+
+ * Validate phpdoc rules (probaby doclbox for performance)
+
+ * Validate with csslint https://github.com/stubbornella/csslint/wiki/Command-line-interface
