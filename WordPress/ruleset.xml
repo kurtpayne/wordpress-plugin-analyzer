@@ -1,93 +1,96 @@
 <?xml version="1.0"?>
 <ruleset name="WordPress">
- <description>The WordPress coding standard.</description>
-  
- <!--
- See the standards here:
- @link http://codex.wordpress.org/WordPress_Coding_Standards
- @link http://lists.automattic.com/pipermail/wp-hackers/2006-July/006930.html
- @link http://manual.phpdoc.org/HTMLSmartyConverter/HandS/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html
- -->
- 
- <!-- Look for *todo* -->
- <rule ref="Generic.Commenting.Todo"/>
- 
- <!-- Favor control structures to being on multiple lines -->
- <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+    <description>The WordPress coding standard.</description>
 
- <!-- Favor each statement to standing on its own -->
- <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+    <!--
+    See the standards here:
+    @link http://codex.wordpress.org/WordPress_Coding_Standards
+    @link http://lists.automattic.com/pipermail/wp-hackers/2006-July/006930.html
+    @link http://manual.phpdoc.org/HTMLSmartyConverter/HandS/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html
+    -->
 
- <!-- Favor a single space after casting data types -->
- <rule ref="Generic.Formatting.SpaceAfterCast"/>
- 
- <!-- Favor __construct() vs. ClassName() constructor -->
- <rule ref="Generic.NamingConventions.ConstructorName"/>
- 
- <!-- Favor upper case constant names -->
- <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+    <!-- Look for *todo* -->
+    <rule ref="Generic.Commenting.Todo"/>
 
- <!-- No short tags -->
- <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+    <!-- Favor control structures to being on multiple lines -->
+    <rule ref="Generic.ControlStructures.InlineControlStructure"/>
 
- <!-- Warn against unnecessary string concatenations -->
- <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
+    <!-- Favor each statement to standing on its own -->
+    <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
 
- <!-- Check include vs. require -->
- <rule ref="PEAR.Files.IncludingFile"/>
- 
- <!-- Multi-line assignments requires indenting with spaces -->
- <rule ref="PEAR.Formatting.MultiLineAssignment"/>
+    <!-- Favor a single space after casting data types -->
+    <rule ref="Generic.Formatting.SpaceAfterCast"/>
 
- <!-- @TODO -->
- <!-- <rule ref="Zend.Debug.CodeAnalyzer"/> -->
- 
- <!-- Lines can be 150 chars long, but never show errors -->
- <rule ref="Generic.Files.LineLength">
-  <properties>
-   <property name="lineLimit" value="150"/>
-   <property name="absoluteLineLimit" value="0"/>
-  </properties>
- </rule>
- 
- <!-- Use Unix newlines -->
- <rule ref="Generic.Files.LineEndings">
-  <properties>
-   <property name="eolChar" value="\n"/>
-  </properties>
- </rule>
- 
- <!-- Have 16 chars padding maximum and always show as errors -->
- <rule ref="Generic.Formatting.MultipleStatementAlignment">
-  <properties>
-   <property name="maxPadding" value="16"/>
-   <property name="ignoreMultiLine" value="true"/>
-   <property name="error" value="true"/>
-  </properties>
- </rule>
- 
- <!-- Warn about overly complex code -->
- <rule ref="Generic.Metrics.CyclomaticComplexity">
-  <properties>
-   <property name="complexity" value="10"/>
-   <property name="absoluteComplexity" value="100"/>
-  </properties>
- </rule>
- <rule ref="Generic.Metrics.NestingLevel">
-  <properties>
-   <property name="nestingLevel" value="5"/>
-   <property name="absoluteNestingLevel" value="50"/>
-  </properties>
- </rule>
- 
- <!-- We don't want gsjlint throwing errors for things we already check -->
- <rule ref="Generic.Debug.ClosureLinter">
-  <properties>
-   <property name="errorCodes" type="array" value="0210"/>
-   <property name="ignoreCodes" type="array" value="0001,0110,0240"/>
-  </properties>
- </rule>
- <rule ref="Generic.Debug.ClosureLinter.ExternalToolError">
-  <message>%2$s</message>
- </rule>
+    <!-- Favor __construct() vs. ClassName() constructor -->
+    <rule ref="Generic.NamingConventions.ConstructorName"/>
+
+    <!-- Favor upper case constant names -->
+    <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+
+    <!-- No short tags -->
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+
+    <!-- Warn against unnecessary string concatenations -->
+    <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
+
+    <!-- Check include vs. require -->
+    <rule ref="PEAR.Files.IncludingFile"/>
+
+    <!-- Multi-line assignments requires indenting with spaces -->
+    <rule ref="PEAR.Formatting.MultiLineAssignment"/>
+
+    <!-- Make sure optional parameters come at the end of the arg list -->
+    <rule ref="PEAR.Functions.ValidDefaultValue"/>
+
+    <!-- @TODO -->
+    <!-- <rule ref="Zend.Debug.CodeAnalyzer"/> -->
+
+    <!-- Lines can be 150 chars long, but never show errors -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="150"/>
+            <property name="absoluteLineLimit" value="0"/>
+        </properties>
+    </rule>
+
+    <!-- Use Unix newlines -->
+    <rule ref="Generic.Files.LineEndings">
+        <properties>
+            <property name="eolChar" value="\n"/>
+        </properties>
+    </rule>
+
+    <!-- Have 16 chars padding maximum and always show as errors -->
+    <rule ref="Generic.Formatting.MultipleStatementAlignment">
+        <properties>
+            <property name="maxPadding" value="16"/>
+            <property name="ignoreMultiLine" value="true"/>
+            <property name="error" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Warn about overly complex code -->
+    <rule ref="Generic.Metrics.CyclomaticComplexity">
+        <properties>
+            <property name="complexity" value="10"/>
+            <property name="absoluteComplexity" value="100"/>
+        </properties>
+    </rule>
+    <rule ref="Generic.Metrics.NestingLevel">
+        <properties>
+            <property name="nestingLevel" value="5"/>
+            <property name="absoluteNestingLevel" value="50"/>
+        </properties>
+    </rule>
+
+    <!-- We don't want gsjlint throwing errors for things we already check -->
+    <rule ref="Generic.Debug.ClosureLinter">
+        <properties>
+            <property name="errorCodes" type="array" value="0210"/>
+            <property name="ignoreCodes" type="array" value="0001,0110,0240"/>
+        </properties>
+    </rule>
+    <rule ref="Generic.Debug.ClosureLinter.ExternalToolError">
+        <message>%2$s</message>
+    </rule>
 </ruleset>
