@@ -36,3 +36,9 @@ to make that happen.
  * Validate phpdoc rules (probaby doclbox for performance)
 
  * Validate with csslint https://github.com/stubbornella/csslint/wiki/Command-line-interface
+
+ * Run through RIPS scanner
+
+ * Run through phpmd
+
+ * Run through php compat info
