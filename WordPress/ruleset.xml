@@ -83,7 +83,9 @@
         </properties>
     </rule>
 
+    <!-- this is run via build.xml, in parallel with other tasks -->
     <!-- We don't want gsjlint throwing errors for things we already check -->
+    <!--
     <rule ref="Generic.Debug.ClosureLinter">
         <properties>
             <property name="errorCodes" type="array" value="0210"/>
@@ -93,4 +95,5 @@
     <rule ref="Generic.Debug.ClosureLinter.ExternalToolError">
         <message>%2$s</message>
     </rule>
+    -->
 </ruleset>
