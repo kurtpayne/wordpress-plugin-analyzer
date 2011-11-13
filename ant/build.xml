@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="name-of-project" default="build">
+
+    <!-- start here                                             -->
+    <!-- invoke this with:  ant -Dbuild_src=/tmp/plugin         -->
+    <!-- expects: plugin.zip exists                             -->
+    <!-- results: /tmp/plugin/logs with info about your project -->
+    <target name="build">
+        <antcall target="prepare" />
+        <antcall target="unzip" />
+        <antcall target="parallelTasks" />
+        <antcall target="clean" />        
+    </target>
+
+    <!-- unzip plugin.zip to /tmp/plugin/plugin -->
+    <target name="unzip">
+        <unzip src="${build_src}/plugin.zip" dest="${build_src}/plugin"/>           
+    </target>
+
+    <!-- make folders we'll use -->
+    <target name="prepare">
+        <mkdir dir="${build_src}/plugin"/>
+        <mkdir dir="${build_src}/logs"/>
+        <mkdir dir="${build_src}/docs"/>
+    </target>
+
+    <!-- run static analysis tools -->
+    <target name="parallelTasks">
+        <antcall target="codesniffer" />
+        <antcall target="phplint" />
+        <antcall target="jslint" />
+        <antcall target="docblox" />
+    </target>
+
+    <!-- codesniffer, check *.js and *.php syntax -->
+    <target name="codesniffer">
+        <exec executable="phpcs" output="${build_src}/logs/codesniffer.log" error="${build_src}/logs/codesniffer.log">
+            <arg value="--standard=WordPress" />
+            <arg value="--report=xml" />
+            <arg value="--report-file=${build_src}/logs/codesniffer.xml" />
+            <arg value="--extensions=php" />
+            <arg value="${build_src}/plugin" />
+        </exec>
+    </target>
+    
+    <!-- check javascript -->
+    <target name="jslint">
+        <apply executable="gjslint" output="${build_src}/logs/jslint.log" error="${build_src}/logs/jslint.log" append="true">
+            <arg value="--nosummary" />
+            <arg value="--notime" />
+            <arg value="--unix_mode" />
+            <fileset dir="${build_src}/plugin">
+                <include name="**/*.js" />
+            </fileset>
+        </apply>
+    </target>
+    
+    <!-- check phpdoc using docblox -->
+    <target name="docblox">
+        <exec executable="docblox" output="${build_src}/logs/docblox.log" error="${build_src}/logs/docblox.log" append="true">
+            <arg value="--extensions=php" />
+            <arg value="--directory=${build_src}/plugin" />
+            <arg value="--target=${build_src}/docs" />
+            <arg value="--parseprivate" />
+            <arg value="--visibility=private,public,protected" />
+            <arg value="project:run" />
+        </exec>
+    </target>
+
+    <!-- phplint, make sure there's no parse errors -->
+    <target name="phplint">
+        <apply executable="php" output="${build_src}/logs/phplint.log" error="${build_src}/logs/phplint.log" append="true">
+            <arg value="-l" />
+            <fileset dir="${build_src}/plugin">
+                <include name="**/*.php" />
+            </fileset>
+        </apply>
+    </target>
+
+    <!-- delete /tmp/plugin/plugin, leave /tmp/plugin/logs -->    
+    <target name="clean">
+        <delete dir="${build_src}/plugin" />
+        <delete dir="${build_src}/docs"/>
+    </target>
+</project>
