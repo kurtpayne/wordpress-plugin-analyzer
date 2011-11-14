@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="name-of-project" default="build">
+<project name="wordpress-plugin-analyzer" default="build" basedir=".">
 
-    <!-- start here                                             -->
-    <!-- invoke this with:  ant -Dbuild_src=/tmp/plugin         -->
-    <!-- expects: plugin.zip exists                             -->
-    <!-- results: /tmp/plugin/logs with info about your project -->
+    <!-- **************************************************************************************** -->
+    <!-- start here                                                                               -->
+    <!-- invoke this with:  ant -Dbuild_src=/tmp/plugin -Drips=/path/to/rips -buildfile build.xml -->
+    <!-- expects: plugin.zip exists                                                               -->
+    <!-- results: /tmp/plugin/logs with info about your project                                   -->
+    <!-- **************************************************************************************** -->
     <target name="build">
         <antcall target="prepare" />
         <antcall target="unzip" />
@@ -30,6 +32,7 @@
         <antcall target="phplint" />
         <antcall target="jslint" />
         <antcall target="docblox" />
+        <antcall target="rips" />
     </target>
 
     <!-- codesniffer, check *.js and *.php syntax -->
@@ -75,6 +78,20 @@
                 <include name="**/*.php" />
             </fileset>
         </apply>
+    </target>
+
+    <!-- run the project through rips -->
+    <target name="rips">
+        <exec executable="php" output="${build_src}/logs/rips.log" error="${build_src}/logs/rips.log" append="true">
+            <arg value="${basedir}/../rips.php" />
+            <arg value="-l${build_src}/plugin}" />
+            <arg value="-s1" />
+            <arg value="-v4" />
+            <arg value="-eserver" />
+            <arg value="-t1" />
+            <arg value="-o${build_src}/logs/rips.html" />
+            <arg value="-p${rips}" />
+        </exec>
     </target>
 
     <!-- delete /tmp/plugin/plugin, leave /tmp/plugin/logs -->    
