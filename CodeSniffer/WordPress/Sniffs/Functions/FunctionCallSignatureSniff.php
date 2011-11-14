@@ -25,6 +25,14 @@ class WordPress_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeS
 {
 	private $type;
 
+	/**
+	 * The space equivalent of tabs (4 spaces = 1 tab)
+	 * This is used to ensure accurate counting when lining up
+	 * multi-line function definitions
+	 * @var string
+	 */
+	const SPACED_TAB = '    ';
+
     /**
      * Returns an array of tokens this test wants to listen for.
      *
@@ -209,7 +217,7 @@ class WordPress_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeS
                 if ($tokens[$i]['code'] !== T_WHITESPACE) {
                     $foundIndent = 0;
                 } else {
-                    $foundIndent = strlen($tokens[$i]['content']);
+                    $foundIndent = strlen(str_replace("\t", $this::SPACED_TAB, $tokens[$i]['content']));
                 }
 
                 if ($expectedIndent !== $foundIndent) {
