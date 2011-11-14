@@ -8,20 +8,20 @@ http://pear.php.net/package/PHP_CodeSniffer/
 And ant
 http://ant.apache.org/bindownload.cgi
 
-# Install CodeSniffer (if you don't already have it)
-pear install PHP_CodeSniffer
+And RIPS
+http://sourceforge.net/projects/rips-scanner/
 
-# Check out a local copy of wordpress-codesniffer
+# Check out a local copy of wordpress-plugin-anazlyer
 cd ~
-git clone https://github.com/kurtpayne/wordpress-codesniffer.git
+git clone https://github.com/kurtpayne/wordpress-plugin-analzyer.git
 
 # Install to CodeSniffer
-ln -s wordpress-codesniffer/WordPress /usr/lib/php/pear/PHP/CodeSniffer/Standards/WordPress
+ln -s wordpress-plugin-analyzer/CodeSniffer/WordPress /usr/lib/php/pear/PHP/CodeSniffer/Standards/WordPress
 
 # Run with ant
 mkdir -p /tmp/plugin
 cp myplugin.zip /tmp/plugin.zip
-ant -Dbuild_src=/tmp/plugin
+ant -Dbuild_src=/tmp/plugin -Drips=/path/to/rips -buildfile build.xml
 
 # Now look around in /tmp/plugin/logs
 cd /tmp/plugin/logs
@@ -30,7 +30,11 @@ cd /tmp/plugin/logs
 THANKS:
  * Original WordPress CodeSniffer standards by John
  * http://urbangiraffe.com/articles/wordpress-codesniffer-standard/
-
+ * RIPS - http://www.php-security.org/
+ * CodeSniffer - http://pear.php.net/package/PHP_CodeSniffer/redirected
+ * Google Closure - http://code.google.com/p/closure-linter/
+ * PHP - http://php.net/
+ * WordPress - http://wordpress.org/
 
 TODO:
  [ ] I'd like to host this somewhere so people could upload a plugin / theme zip
@@ -41,11 +45,13 @@ to make that happen.
 
  [ ] Submit readme.txt (if found) to http://wordpress.org/extend/plugins/about/validator/
 
- [x] Validate phpdoc rules (probaby doclbox for performance)
+ [X] Validate phpdoc rules (probaby doclbox for performance)
+ 
+ [X] Validate with gjslint
 
  [ ] Validate with csslint https://github.com/stubbornella/csslint/wiki/Command-line-interface
 
- [ ] Run through RIPS scanner
+ [X] Run through RIPS scanner
 
  [ ] Run through phpmd
 
