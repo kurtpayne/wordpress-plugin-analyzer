@@ -18,7 +18,7 @@ if (empty($options) || isset($options['h'])) {
     client = Cross-Site Scripting
     all = All
     unserialize = Unserialize / POP\n";
-exit();
+    exit();
 }
 $_POST = array(
     'loc' => @$options['l'],
