@@ -4,6 +4,8 @@
     <!-- **************************************************************************************** -->
     <!-- start here                                                                               -->
     <!-- invoke this with:  ant -Dbuild_src=/tmp/plugin -Drips=/path/to/rips -buildfile build.xml -->
+    <!-- -Drun_cpd=true -Drun_jslint=true -Drun_docs=true -Drun_phplint=true -Drun_pmd=true       -->
+    <!-- -Drun_rips=true -Drun_syntax=true -Drun_readme_validator=true                            -->
     <!-- expects: plugin.zip exists                                                               -->
     <!-- results: /tmp/plugin/logs with info about your project                                   -->
     <!-- **************************************************************************************** -->
@@ -11,7 +13,7 @@
         <antcall target="prepare" />
         <antcall target="unzip" />
         <antcall target="parallelTasks" />
-        <antcall target="clean" />        
+        <!-- <antcall target="clean" /> -->        
     </target>
 
     <!-- unzip plugin.zip to /tmp/plugin/plugin -->
@@ -35,6 +37,7 @@
         <antcall target="rips" />
         <antcall target="phpmd" />
         <antcall target="phpcpd" />
+        <antcall target="readme_validator" />
     </target>
 
     <!-- codesniffer, check *.js and *.php syntax -->
@@ -117,6 +120,15 @@
             <arg value="-t1" />
             <arg value="-o${build_src}/logs/rips.html" />
             <arg value="-p${rips}" />
+        </exec>
+    </target>
+    
+    <!-- run through plugin readme validator -->
+    <target name="readme_validator" if="run_readme_validator">
+        <exec executable="php" output="${build_src}/logs/plugin_readme.log" error="${build_src}/logs/plugin_readme.log" append="true">
+            <arg value="${basedir}/../plugin_readme.php" />
+            <arg value="-l${build_src}/plugin" />
+            <arg value="-o${build_src}/logs/plugin_readme.html" />
         </exec>
     </target>
 
