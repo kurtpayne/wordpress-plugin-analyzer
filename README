@@ -21,7 +21,7 @@ ln -s wordpress-plugin-analyzer/CodeSniffer/WordPress /usr/lib/php/pear/PHP/Code
 # Run with ant
 mkdir -p /tmp/plugin
 cp myplugin.zip /tmp/plugin.zip
-ant -Dbuild_src=/tmp/plugin -buildfile ant/build.xml -Drips=/path/to/rips/ -Drun_cpd=true -Drun_jslint=true -Drun_docs=true -Drun_phplint=true -Drun_pmd=true -Drun_rips=true -Drun_syntax=true
+ant -Dbuild_src=/tmp/plugin -buildfile ant/build.xml -Drips=/path/to/rips/ -Drun_cpd=true -Drun_jslint=true -Drun_docs=true -Drun_phplint=true -Drun_pmd=true -Drun_rips=true -Drun_syntax=true -Drun_readme_validator=true
 
 # Now look around in /tmp/plugin/logs
 cd /tmp/plugin/logs
@@ -45,7 +45,7 @@ to make that happen.
 
  [ ] Tie into Zend Code Analyzer
 
- [ ] Submit readme.txt (if found) to http://wordpress.org/extend/plugins/about/validator/
+ [X] Submit readme.txt (if found) to http://wordpress.org/extend/plugins/about/validator/
 
  [X] Validate phpdoc rules (probaby doclbox for performance)
  
