@@ -33,10 +33,12 @@
         <antcall target="jslint" />
         <antcall target="docblox" />
         <antcall target="rips" />
+        <antcall target="phpmd" />
+        <antcall target="phpcpd" />
     </target>
 
     <!-- codesniffer, check *.js and *.php syntax -->
-    <target name="codesniffer">
+    <target name="codesniffer" if="run_syntax">
         <exec executable="phpcs" output="${build_src}/logs/codesniffer.log" error="${build_src}/logs/codesniffer.log">
             <arg value="--standard=WordPress" />
             <arg value="--report=xml" />
@@ -47,7 +49,7 @@
     </target>
     
     <!-- check javascript -->
-    <target name="jslint">
+    <target name="jslint" if="run_jslint">
         <apply executable="gjslint" output="${build_src}/logs/jslint.log" error="${build_src}/logs/jslint.log" append="true">
             <arg value="--nosummary" />
             <arg value="--notime" />
@@ -59,7 +61,7 @@
     </target>
     
     <!-- check phpdoc using docblox -->
-    <target name="docblox">
+    <target name="docblox" if="run_docs">
         <exec executable="docblox" output="${build_src}/logs/docblox.log" error="${build_src}/logs/docblox.log" append="true">
             <arg value="--extensions=php" />
             <arg value="--directory=${build_src}/plugin" />
@@ -71,7 +73,7 @@
     </target>
 
     <!-- phplint, make sure there's no parse errors -->
-    <target name="phplint">
+    <target name="phplint" if="run_phplint">
         <apply executable="php" output="${build_src}/logs/phplint.log" error="${build_src}/logs/phplint.log" append="true">
             <arg value="-l" />
             <fileset dir="${build_src}/plugin">
@@ -79,9 +81,33 @@
             </fileset>
         </apply>
     </target>
+    
+    <!-- phpmd -->
+    <target name="phpmd" if="run_pmd">
+        <exec executable="phpmd" output="${build_src}/logs/phpmd.log" error="${build_src}/logs/phpmd.log" append="true">
+            <arg value="${build_src}/plugin" />
+            <arg value="xml" />
+            <arg value="codesize,design,naming,unusedcode" />
+            <arg value="--reportfile" />
+            <arg value="${build_src}/logs/phpmd.xml" />
+            <arg value="--extensions" />
+            <arg value="php" />
+        </exec>
+    </target>
+
+    <!-- phpcpd -->
+    <target name="phpcpd" if="run_cpd">
+        <exec executable="phpcpd" output="${build_src}/logs/phpcpd.log" error="${build_src}/logs/phpcpd.log" append="true">
+            <arg value="--log-pmd" />
+            <arg value="${build_src}/logs/cpd.xml" />
+            <arg value="--suffixes" />
+            <arg value="php" />
+            <arg value="${build_src}/plugin" />
+        </exec>
+    </target>
 
     <!-- run the project through rips -->
-    <target name="rips">
+    <target name="rips" if="run_rips">
         <exec executable="php" output="${build_src}/logs/rips.log" error="${build_src}/logs/rips.log" append="true">
             <arg value="${basedir}/../rips.php" />
             <arg value="-l${build_src}/plugin}" />
