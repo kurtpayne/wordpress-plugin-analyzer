@@ -5,7 +5,7 @@
     <!-- start here                                                                               -->
     <!-- invoke this with:  ant -Dbuild_src=/tmp/plugin -Drips=/path/to/rips -buildfile build.xml -->
     <!-- -Drun_cpd=true -Drun_jslint=true -Drun_docs=true -Drun_phplint=true -Drun_pmd=true       -->
-    <!-- -Drun_rips=true -Drun_syntax=true -Drun_readme_validator=true                            -->
+    <!-- -Drun_rips=true -Drun_syntax=true -Drun_readme_validator=true -Drun_csslint=true         -->
     <!-- expects: plugin.zip exists                                                               -->
     <!-- results: /tmp/plugin/logs with info about your project                                   -->
     <!-- **************************************************************************************** -->
