@@ -21,7 +21,7 @@ ln -s wordpress-plugin-analyzer/CodeSniffer/WordPress /usr/lib/php/pear/PHP/Code
 # Run with ant
 mkdir -p /tmp/plugin
 cp myplugin.zip /tmp/plugin.zip
-ant -Dbuild_src=/tmp/plugin -buildfile ant/build.xml -Drips=/path/to/rips/ -Drun_cpd=true -Drun_jslint=true -Drun_docs=true -Drun_phplint=true -Drun_pmd=true -Drun_rips=true -Drun_syntax=true -Drun_readme_validator=true -Drun_pci=true
+ant -Dbuild_src=/tmp/plugin -buildfile ant/build.xml -Drips=/path/to/rips/ -Drun_cpd=true -Drun_jslint=true -Drun_docs=true -Drun_phplint=true -Drun_pmd=true -Drun_rips=true -Drun_syntax=true -Drun_readme_validator=true -Drun_pci=true -Drun_csslint=true
 
 # Now look around in /tmp/plugin/logs
 cd /tmp/plugin/logs
@@ -38,7 +38,8 @@ THANKS:
  * PHP CPD - https://github.com/sebastianbergmann/phpcpd
  * PHP PMD - http://phpmd.org/documentation/index.html
  * PHP CompatInfo - http://pear.php.net/package/PHP_CompatInfo/
-
+ * CSS Lint - http://csslint.net/
+ 
 
 TODO:
 
@@ -50,7 +51,7 @@ TODO:
  
  [ ] Web front-end
 
- [ ] Validate with csslint https://github.com/stubbornella/csslint/wiki/Command-line-interface
+ [X] Validate with csslint https://github.com/stubbornella/csslint/wiki/Command-line-interface
 
  [X] Run through RIPS scanner
 

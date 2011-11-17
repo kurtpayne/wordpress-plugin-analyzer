@@ -43,6 +43,7 @@
             <antcall target="phpcpd" />
             <antcall target="pci" />
             <antcall target="readme_validator" />
+            <antcall target="csslint" />
         </parallel>
     </target>
 
@@ -90,7 +91,16 @@
             </fileset>
         </apply>
     </target>
-    
+
+    <!-- csslint -->
+    <target name="csslint" if="run_csslint">
+        <apply executable="csslint" output="${build_src}/logs/csslint.log" error="${build_src}/logs/csslint.log" append="true">
+            <fileset dir="${build_src}/plugin">
+                <include name="**/*.css" />
+            </fileset>
+        </apply>
+    </target>
+
     <!-- phpmd -->
     <target name="phpmd" if="run_pmd">
         <exec executable="phpmd" output="${build_src}/logs/phpmd.log" error="${build_src}/logs/phpmd.log" append="true">
