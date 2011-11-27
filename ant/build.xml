@@ -47,9 +47,9 @@
         </parallel>
     </target>
 
-    <!-- codesniffer, check *.js and *.php syntax -->
+    <!-- codesniffer .php syntax for adherence to WordPress standards -->
     <target name="codesniffer" if="run_syntax">
-        <exec executable="phpcs" output="${build_src}/logs/codesniffer.log" error="${build_src}/logs/codesniffer.log">
+        <exec executable="phpcs" output="${build_src}/logs/codesniffer.log" error="${build_src}/logs/codesniffer.log" append="true">
             <arg value="--standard=WordPress" />
             <arg value="--report=xml" />
             <arg value="--report-file=${build_src}/logs/codesniffer.xml" />
@@ -109,7 +109,7 @@
             <arg value="codesize,design,naming,unusedcode" />
             <arg value="--reportfile" />
             <arg value="${build_src}/logs/phpmd.xml" />
-            <arg value="--extensions" />
+            <arg value="--suffixes" />
             <arg value="php" />
         </exec>
     </target>
@@ -144,7 +144,7 @@
     <target name="rips" if="run_rips">
         <exec executable="php" output="${build_src}/logs/rips.log" error="${build_src}/logs/rips.log" append="true">
             <arg value="${basedir}/../rips.php" />
-            <arg value="-l${build_src}/plugin}" />
+            <arg value="-l${build_src}/plugin" />
             <arg value="-s1" />
             <arg value="-v4" />
             <arg value="-eserver" />
